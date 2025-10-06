@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exercícios Interativos</title>
+    <style>
+      body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; margin: 20px; line-height: 1.5; }
+      h1 { margin-bottom: 8px; }
+      section { border: 1px solid #ddd; border-radius: 8px; padding: 16px; margin: 16px 0; }
+      section > h2 { margin-top: 0; }
+      button { cursor: pointer; }
+      .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+      .spacer { height: 8px; }
+      .escondido { display: none; }
+      img.gallery { max-width: 100%; height: auto; border-radius: 6px; }
+      ul { padding-left: 20px; }
+      input[type="text"] { padding: 6px 8px; }
+    </style>
+  </head>
+  <body>
+    <h1>Exercícios Interativos</h1>
+    <p>Implementações simples em HTML + CSS + JavaScript.</p>
+
+    <!-- Exercício 1 -->
+    <section id="ex1">
+      <h2>Exercício 1: Contador</h2>
+      <p>Objetivo: Criar um contador que aumenta ou reseta com cliques de botões.</p>
+      <div class="spacer"></div>
+      <h3 id="valor-contador" aria-live="polite">0</h3>
+      <div class="row">
+        <button id="btn-incrementar">Incrementar</button>
+        <button id="btn-resetar">Resetar</button>
+      </div>
+    </section>
+
+    <!-- Exercício 2 -->
+    <section id="ex2">
+      <h2>Exercício 2: Saudação Interativa</h2>
+      <p>Objetivo: Pegar um nome digitado e exibir uma saudação personalizada.</p>
+      <div class="row">
+        <input id="nome" type="text" placeholder="Digite seu nome" />
+        <button id="btn-saudar">Saudar</button>
+      </div>
+      <div class="spacer"></div>
+      <p id="mensagem-saudar"></p>
+    </section>
+
+    <!-- Exercício 3 -->
+    <section id="ex3">
+      <h2>Exercício 3: Galeria de Imagens Simples</h2>
+      <p>Navegue pelas imagens usando os botões.</p>
+      <div class="spacer"></div>
+      <img id="galeria-img" class="gallery" src="https://picsum.photos/id/237/800/450" alt="Imagem da galeria" />
+      <div class="spacer"></div>
+      <div class="row">
+        <button id="btn-anterior">Anterior</button>
+        <button id="btn-proximo">Próximo</button>
+      </div>
+    </section>
+
+    <!-- Exercício 4 -->
+    <section id="ex4">
+      <h2>Exercício 4: FAQ (Accordion Simples)</h2>
+      <h3 id="pergunta">O que é DOM?</h3>
+      <div id="resposta" class="escondido">
+        <p>DOM significa Document Object Model. É a representação do documento na memória, que permite ao JavaScript acessar e manipular elementos HTML.</p>
+      </div>
+    </section>
+
+    <!-- Exercício 5 -->
+    <section id="ex5">
+      <h2>Exercício 5: Lista de Tarefas</h2>
+      <div class="row">
+        <input id="tarefa-input" type="text" placeholder="Nova tarefa" />
+        <button id="btn-add-tarefa">Adicionar Tarefa</button>
+      </div>
+      <div class="spacer"></div>
+      <ul id="lista-tarefas"></ul>
+    </section>
+
+    <script>
+      // Exercício 1
+      let contador = 0;
+      const valorContador = document.getElementById('valor-contador');
+      document.getElementById('btn-incrementar').addEventListener('click', () => {
+        contador += 1;
+        valorContador.textContent = String(contador);
+      });
+      document.getElementById('btn-resetar').addEventListener('click', () => {
+        contador = 0;
+        valorContador.textContent = '0';
+      });
+
+      // Exercício 2
+      const nomeInput = document.getElementById('nome');
+      const mensagemSaudar = document.getElementById('mensagem-saudar');
+      document.getElementById('btn-saudar').addEventListener('click', () => {
+        const nome = (nomeInput.value || '').trim();
+        if (nome.length === 0) {
+          mensagemSaudar.textContent = 'Por favor, digite seu nome.';
+        } else {
+          mensagemSaudar.textContent = `Olá, ${nome}! Seja bem-vindo(a)!`;
+        }
+      });
+
+      // Exercício 3
+      const imagens = [
+        'https://picsum.photos/id/237/800/450',
+        'https://picsum.photos/id/1025/800/450',
+        'https://picsum.photos/id/1003/800/450',
+        'https://picsum.photos/id/1015/800/450'
+      ];
+      let indiceAtual = 0;
+      const imgEl = document.getElementById('galeria-img');
+      function atualizarImagem() {
+        imgEl.src = imagens[indiceAtual];
+      }
+      document.getElementById('btn-proximo').addEventListener('click', () => {
+        indiceAtual = (indiceAtual + 1) % imagens.length;
+        atualizarImagem();
+      });
+      document.getElementById('btn-anterior').addEventListener('click', () => {
+        indiceAtual = (indiceAtual - 1 + imagens.length) % imagens.length;
+        atualizarImagem();
+      });
+
+      // Exercício 4
+      const pergunta = document.getElementById('pergunta');
+      const resposta = document.getElementById('resposta');
+      pergunta.addEventListener('click', () => {
+        resposta.classList.toggle('escondido');
+      });
+
+      // Exercício 5
+      const tarefaInput = document.getElementById('tarefa-input');
+      const lista = document.getElementById('lista-tarefas');
+      document.getElementById('btn-add-tarefa').addEventListener('click', () => {
+        const texto = (tarefaInput.value || '').trim();
+        if (!texto) return; // opcional: ignore vazio
+        const novoItem = document.createElement('li');
+        novoItem.textContent = texto;
+        lista.appendChild(novoItem);
+        tarefaInput.value = '';
+        tarefaInput.focus();
+      });
+    </script>
+  </body>
+  </html>
+
